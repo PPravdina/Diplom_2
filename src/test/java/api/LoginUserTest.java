@@ -8,6 +8,7 @@ import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 
+import static api.util.TestDataGenerator.faker;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class LoginUserTest extends BaseTest {
@@ -40,7 +41,7 @@ public class LoginUserTest extends BaseTest {
         // Сохранение токена
         user.setAccessToken(response.jsonPath().getString("accessToken"));
         //Смена имейла
-        user.setEmail(TestDataGenerator.generateRandomString(8) + "@example.com");
+        user.setEmail(faker.internet().emailAddress());
         Response responseLogin = userClient.loginUser();
         // Проверка, что авторизация не прошла
         responseLogin.then().assertThat().statusCode(401)
@@ -58,7 +59,7 @@ public class LoginUserTest extends BaseTest {
         // Сохранение токена
         user.setAccessToken(response.jsonPath().getString("accessToken"));
         //Смена пароля
-        user.setPassword(TestDataGenerator.generateRandomString(8));
+        user.setPassword(faker.internet().password());
         Response responseLogin = userClient.loginUser();
         // Проверка, что авторизация не прошла
         responseLogin.then().assertThat().statusCode(401)

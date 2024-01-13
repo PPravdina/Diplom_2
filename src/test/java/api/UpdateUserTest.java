@@ -8,6 +8,7 @@ import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 
+import static api.util.TestDataGenerator.faker;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class UpdateUserTest extends BaseTest {
@@ -25,7 +26,7 @@ public class UpdateUserTest extends BaseTest {
     @Description("Проверка, что можно изменить имейл")
     public void updateUserEmailTest() {
         //Смена логина
-        user.setEmail(TestDataGenerator.generateRandomString(8).toLowerCase() + "@example.com");
+        user.setEmail(faker.internet().emailAddress());
         Response response = userClient.updateUser(user);
         // Проверка, что смена логина прошла успешно
         response.then().assertThat().statusCode(200)
@@ -41,8 +42,8 @@ public class UpdateUserTest extends BaseTest {
     @DisplayName("Update user Name")
     @Description("Проверка, что можно изменить имя")
     public void updateUserNameTest() {
-        //Смена логина
-        user.setName(TestDataGenerator.generateRandomString(8));
+        //Смена имени
+        user.setName(faker.name().firstName());
         Response response = userClient.updateUser(user);
         // Проверка, что смена логина прошла успешно
         response.then().assertThat().statusCode(200)
@@ -62,7 +63,7 @@ public class UpdateUserTest extends BaseTest {
         // Убрали авторизацию
         user.setAccessToken(null);
         //изменили данные
-        user.setEmail(TestDataGenerator.generateRandomString(8).toLowerCase() + "@example.com");
+        user.setEmail(faker.internet().emailAddress());
         // Вызываем updateUser без передачи user с токеном
         Response response = userClient.updateUser(user);
 
@@ -85,7 +86,7 @@ public class UpdateUserTest extends BaseTest {
         // Убрали авторизацию
         user.setAccessToken(null);
         //изменили данные
-        user.setName(TestDataGenerator.generateRandomString(8));
+        user.setName(faker.name().firstName());
         // Вызываем updateUser без передачи user с токеном
         Response response = userClient.updateUser(user);
 
